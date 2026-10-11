@@ -38,7 +38,7 @@ public class NeedsController : MonoBehaviour
 
     public void LoadFromData(BaesData data)
     {
-    
+        
         lastTimeFed    = DateTime.Parse(data.lastTimeFed);
         lastTimeHappy  = DateTime.Parse(data.lastTimeHappy);
         lastTimeWashed = DateTime.Parse(data.lastTimeWashed);
@@ -66,7 +66,7 @@ public class NeedsController : MonoBehaviour
             isDead = true;
             Debug.LogFormat("Твой питомец умер (っ °Д °;)っ");
             //if (baesAnimator != null)
-                //baesAnimator.SetTrigger("Die"); // если есть анимация смерти
+                //baesAnimator.SetTrigger("Die"); 
     
     }
 
@@ -99,6 +99,8 @@ public class NeedsController : MonoBehaviour
         baehappy.SetActive(!isSad);
         baesad.SetActive(isSad);
     }
+
+
     
     public  float gameHourTimer;
     public  float hourLength;

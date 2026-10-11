@@ -3,14 +3,15 @@ using UnityEngine;
 public class CamerBehaviour : MonoBehaviour
 {
     public Vector3 camOffSet = new(0f, 1.2f, -2.6f);
-
     private Transform target;
     private Vector3 savedPosition;
     private Quaternion savedRotation;
 
-    
+    // Начать слежение за целью
     public void Follow(Transform newTarget)
     {
+        if (newTarget == null) { Debug.LogWarning("CamerBehaviour: цель не задана", this); return; }
+
         if (newTarget == null)
         {
             Debug.LogWarning("CamerBehaviour: цель не задана", this);
@@ -39,6 +40,11 @@ public class CamerBehaviour : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (target != null)
+        {
+            UpdateCamera();
+        }
+        
         if (target != null)
             UpdateCamera();
     }

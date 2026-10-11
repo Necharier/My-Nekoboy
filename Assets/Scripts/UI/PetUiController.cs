@@ -7,8 +7,7 @@ public class PetUiController : MonoBehaviour
 
     public Image satietyScale, happinessScale, cleannessScale;
     public GameObject miniGame, mainGame;
-    public float fillSpeed = 0.5f;   // доля шкалы в секунду
-
+    public float fillSpeed = 0.5f;   
     private float satietyTarget, happinessTarget, cleannessTarget;
 
     private void Awake()

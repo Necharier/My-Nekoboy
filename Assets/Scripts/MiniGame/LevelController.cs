@@ -1,30 +1,36 @@
-using System.Collections.Generic;
+//using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Analytics;
-
+ 
 public class LevelController : MonoBehaviour
 {
-    public Transform bae;
-    public MiniGameLevel[] LevelsPrefab;
-    public MiniGameLevel firstLevel;
-    private List<MiniGameLevel> spawnedLevels = new List<MiniGameLevel>();
-    private MiniGameLevel newLevel;
-    private void SpawnLevels()
+    public MiniGameLevel Level;
+ 
+    [Tooltip("Насколько ниже самого нижнего уровня можно упасть до проигрыша")]
+    public float fallMargin = 0f;
+    public MiniGameBase game;
+    private Transform bae;
+   
+ 
+    private void Awake()
     {
-        MiniGameLevel GameLevels = Instantiate(LevelsPrefab[Random.Range(0, LevelsPrefab.Length)]);
-        newLevel.transform.position = spawnedLevels[spawnedLevels.Count-1].end.position - newLevel.begin.localPosition;
-        spawnedLevels.Add(newLevel);
+        enabled = false; 
+        game = GetComponent<MiniGameBase>();
     }
-
-    private void Start()
+ 
+    public void SetBae(Transform target)
     {
-        spawnedLevels.Add(firstLevel);
+        bae = target;
+        enabled = bae && Level;
     }
+ 
     private void Update()
     {
-        if(bae.position.y > spawnedLevels[spawnedLevels.Count - 1].end.position.y)
+        float baeY = bae.position.y;
+        if (baeY < Level.begin.position.y - fallMargin)
         {
-            SpawnLevels();
+            enabled = false;             
+            if (game) game.Fail();
         }
     }
+ 
 }

@@ -9,7 +9,8 @@ public class MiniGameBase : MonoBehaviour
 
     public event Action<int> ScoreChanged;
     public event Action<float> TimerChanged;
-    public event Action<int, float> Finished;   // (счёт, оставшееся время)
+    public event Action<int, float> Finished;
+    public event Action<int, float> Failed;
 
     protected int score;
     private bool isFinished;
@@ -21,7 +22,7 @@ public class MiniGameBase : MonoBehaviour
         TimerChanged?.Invoke(timer);
     }
 
-    //Точка старта питомца. 
+    
     public Vector2 GetStartPosition()
     {
         if (startingPositions == null || startingPositions.Length == 0)
@@ -32,14 +33,14 @@ public class MiniGameBase : MonoBehaviour
         return startingPositions[UnityEngine.Random.Range(0, startingPositions.Length)].position;
     }
 
-    protected virtual void ChangeScore(int amount)
+    public virtual void ChangeScore(int amount)
     {
         if (isFinished) return;
         score += amount;
         ScoreChanged?.Invoke(score);
     }
 
-    protected virtual void ChangeTimer(float change)
+    public virtual void ChangeTimer(float change)
     {
         timer = Mathf.Max(0f, timer + change);
         TimerChanged?.Invoke(timer);
@@ -59,6 +60,13 @@ public class MiniGameBase : MonoBehaviour
         isFinished = true;
         Finished?.Invoke(score, timer);
         
+    }
+
+    public void Fail()
+    {
+        if (isFinished) return;
+        isFinished = true;           // Update перестанет тикать таймер, ChangeScore перестанет работать
+        Failed?.Invoke(score, timer);
     }
 
     protected virtual void GoalReached()

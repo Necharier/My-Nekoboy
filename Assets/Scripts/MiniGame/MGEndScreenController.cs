@@ -1,16 +1,20 @@
+using System.Linq.Expressions;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class MGEndScreenController : MonoBehaviour
 {
-    public Text resaultText, titleText;
+    public TMP_Text resaultText, titleText;
+    public Button resrartBtn, exitBtn;
 
     [Tooltip("Всё, что должно показываться только в конце игры")]
-    public GameObject[] resultObjects;   // ResultText, TitleText, EndText
+    public GameObject[] resultObjects;   
 
     public void Initialize(int score, float timeRemaining, bool victory)
     {
-        resaultText.text = string.Format("Ты заработал {0} очков за {1:0.0} секунд", score, timeRemaining);
+        resaultText.text = string.Format("Ты заработал {0} очков!", score, timeRemaining);
         titleText.text = victory ? "Ты выиграл!" : "Ты проиграл(((";
         Show();
     }
